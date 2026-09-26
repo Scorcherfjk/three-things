@@ -24,13 +24,13 @@ Single project, web app (frontend-only): `src/`, `tests/` at repository root, pe
 
 **Purpose**: Project initialization and toolchain per Constitution Principle V and Section 2
 
-- [ ] T001 Scaffold the Vite React-TS project in the repository root (`npm create vite@latest . -- --template react-ts`) producing the `src/`, `tests/` layout from plan.md, keeping existing `specs/` and `.specify/` intact
-- [ ] T002 [P] Configure ESLint (typescript-eslint + react-hooks + react-refresh) and Prettier in `eslint.config.js` and `.prettierrc`, plus `.editorconfig`
-- [ ] T003 [P] Configure Husky with lint-staged and commitlint (@commitlint/config-conventional) in `.husky/pre-commit`, `.lintstagedrc`, and `commitlint.config.js`
-- [ ] T004 [P] Enable TypeScript `strict` mode and the `@/` path alias in `tsconfig.json` and `vite.config.ts`
-- [ ] T005 [P] Add production `Dockerfile` (multi-stage `npm run build` → nginx static serve of `dist/`)
-- [ ] T006 [P] Add GitHub Actions CI workflow running lint, type-check, and tests in `.github/workflows/ci.yml`
-- [ ] T007 [P] Add `.env.example`, `.gitignore`, and `README.md` baseline per constitution Section 2
+- [x] T001 Scaffold the Vite React-TS project in the repository root (`npm create vite@latest . -- --template react-ts`) producing the `src/`, `tests/` layout from plan.md, keeping existing `specs/` and `.specify/` intact
+- [x] T002 [P] Configure ESLint (typescript-eslint + react-hooks + react-refresh) and Prettier in `eslint.config.js` and `.prettierrc`, plus `.editorconfig`
+- [x] T003 [P] Configure Husky with lint-staged and commitlint (@commitlint/config-conventional) in `.husky/pre-commit`, `.lintstagedrc`, and `commitlint.config.js`
+- [x] T004 [P] Enable TypeScript `strict` mode and the `@/` path alias in `tsconfig.json` and `vite.config.ts`
+- [x] T005 [P] Add production `Dockerfile` (multi-stage `npm run build` → nginx static serve of `dist/`)
+- [x] T006 [P] Add GitHub Actions CI workflow running lint, type-check, and tests in `.github/workflows/ci.yml`
+- [x] T007 [P] Add `.env.example`, `.gitignore`, and `README.md` baseline per constitution Section 2
 
 **Checkpoint**: Toolchain ready — foundation can start
 
@@ -42,12 +42,12 @@ Single project, web app (frontend-only): `src/`, `tests/` at repository root, pe
 
 **⚠️ CRITICAL**: No user story work can begin until this phase is complete
 
-- [ ] T008 Create domain entities in `src/domain/types.ts`: `Participant` and `Question` (`id` unique/immutable, `text` non-empty after trim with accents preserved, `status: 'eligible' | 'disabled'`), `Round` (`participantId`, `questionId`, `drawnAt`, `deadline`, `remainingMs`, `status: 'running' | 'interrupted' | 'timeup'`), `SessionData` (`version: 1`, `participants`, `questions`, `currentRound: Round | null`, `view: 'setup' | 'play'`) exactly as specified in data-model.md
-- [ ] T009 Implement the session storage contract in `src/storage/sessionStore.ts` (plus `src/storage/storageKeys.ts`): `loadSession()` never throws and returns empty `SessionData` on missing/corrupt/unknown version; `saveSession()`/`clearSession()` return `SaveResult` (`{ ok: true } | { ok: false; reason: 'quota' | 'unavailable' | 'serialize' }`); single localStorage key `three-things.session` — see contracts/session-storage.md
-- [ ] T010 [P] Configure Vitest with jsdom environment and React Testing Library in `vitest.config.ts` (test config merged with `vite.config.ts`) and `tests/setup.ts` importing `@testing-library/jest-dom`
-- [ ] T011 Implement `useSessionData` hook in `src/hooks/useSessionData.ts`: load persisted session on mount, add item, remove item by `id`, edit text by `id` (status unchanged), persist every mutation via `saveSession`, and expose a storage-error state for failed writes (FR-007)
-- [ ] T012 Create the App shell owning `view: 'setup' | 'play'` state (restored from `SessionData.view`) with the "Three Things" header and view switch in `src/app/App.tsx`, mounted by `src/main.tsx`, plus `src/styles/global.css`
-- [ ] T013 [P] Create the shared item list renderer (one generic component used for participants and questions: text, status badge, slot for trailing controls) in `src/components/ItemList.tsx`
+- [x] T008 Create domain entities in `src/domain/types.ts`: `Participant` and `Question` (`id` unique/immutable, `text` non-empty after trim with accents preserved, `status: 'eligible' | 'disabled'`), `Round` (`participantId`, `questionId`, `drawnAt`, `deadline`, `remainingMs`, `status: 'running' | 'interrupted' | 'timeup'`), `SessionData` (`version: 1`, `participants`, `questions`, `currentRound: Round | null`, `view: 'setup' | 'play'`) exactly as specified in data-model.md
+- [x] T009 Implement the session storage contract in `src/storage/sessionStore.ts` (plus `src/storage/storageKeys.ts`): `loadSession()` never throws and returns empty `SessionData` on missing/corrupt/unknown version; `saveSession()`/`clearSession()` return `SaveResult` (`{ ok: true } | { ok: false; reason: 'quota' | 'unavailable' | 'serialize' }`); single localStorage key `three-things.session` — see contracts/session-storage.md
+- [x] T010 [P] Configure Vitest with jsdom environment and React Testing Library in `vitest.config.ts` (test config merged with `vite.config.ts`) and `tests/setup.ts` importing `@testing-library/jest-dom`
+- [x] T011 Implement `useSessionData` hook in `src/hooks/useSessionData.ts`: load persisted session on mount, add item, remove item by `id`, edit text by `id` (status unchanged), persist every mutation via `saveSession`, and expose a storage-error state for failed writes (FR-007)
+- [x] T012 Create the App shell owning `view: 'setup' | 'play'` state (restored from `SessionData.view`) with the "Three Things" header and view switch in `src/app/App.tsx`, mounted by `src/main.tsx`, plus `src/styles/global.css`
+- [x] T013 [P] Create the shared item list renderer (one generic component used for participants and questions: text, status badge, slot for trailing controls) in `src/components/ItemList.tsx`
 
 **Checkpoint**: Foundation ready — user story implementation can now begin
 
@@ -61,20 +61,20 @@ Single project, web app (frontend-only): `src/`, `tests/` at repository root, pe
 
 ### Tests for User Story 1
 
-- [ ] T014 [P] [US1] Unit test for uniform random selection over eligible items only, with injected deterministic RNG, in `tests/unit/draw.test.ts`
-- [ ] T015 [P] [US1] Unit test for round lifecycle transitions (running → interrupted freezes `remainingMs`; resume continues; discard returns to none with pair still eligible; timeup holds) in `tests/unit/roundState.test.ts`
+- [x] T014 [P] [US1] Unit test for uniform random selection over eligible items only, with injected deterministic RNG, in `tests/unit/draw.test.ts`
+- [x] T015 [P] [US1] Unit test for round lifecycle transitions (running → interrupted freezes `remainingMs`; resume continues; discard returns to none with pair still eligible; timeup holds) in `tests/unit/roundState.test.ts`
 
 ### Implementation for User Story 1
 
-- [ ] T016 [P] [US1] Implement `selectRound` uniform random selection from eligible items with injectable RNG in `src/domain/draw.ts` (FR-018; never selects `status === 'disabled'`, FR-029)
-- [ ] T017 [P] [US1] Implement pure round state machine with fixed 60 000 ms (`deadline` epoch math, freeze/resume/discard, ±1 s accuracy, no configurable duration) in `src/domain/roundState.ts` (FR-022, FR-024, FR-026)
-- [ ] T018 [US1] Implement `useRound` hook: start draw (guard re-entrancy per FR-021), run animation phase, reveal pair, tick countdown only while `running` on the play view, pause on view change/reload, resume/discard, acknowledge → next round; persist `currentRound` via `useSessionData`/`sessionStore` (FR-026) in `src/hooks/useRound.ts`
-- [ ] T019 [P] [US1] Create draw animation component cycling candidate names/questions with CSS `@keyframes`, total duration 2–3 s hard-capped below 5 s, resolving deterministically into the pre-selected pair in `src/components/DrawAnimation.tsx` + `src/components/DrawAnimation.module.css` (FR-016, FR-017)
-- [ ] T020 [US1] Create round display showing participant name and question with equal visual prominence and an `MM:SS` countdown starting at `01:00`, plus a visible time-up signal that keeps the pair on screen, in `src/components/RoundDisplay.tsx` (FR-019, FR-020, FR-022, FR-024)
-- [ ] T021 [US1] Create interrupted-round component showing frozen remaining time, "Round interrupted — countdown paused" label, and explicit **Resume countdown** / **Discard round** actions in `src/components/InterruptedRound.tsx` (FR-026)
-- [ ] T022 [US1] Implement Play view with exactly one Draw control (disabled during animation/round, FR-015), all round states, list rendering, and ignored extra activations in `src/components/PlayView.tsx` per contracts/play-view.md (FR-013, FR-021, FR-023, FR-036)
-- [ ] T023 [US1] Wire the view switch in `src/app/App.tsx` so leaving the play view while a countdown runs stops it and marks the round interrupted, and returning shows the resume-or-discard choice with the exact time left (FR-014, FR-026)
-- [ ] T024 [US1] Add integration test covering draw → countdown → leave view → interrupted restore → resume and discard, and double-press guard, in `tests/integration/round-flow.test.tsx`
+- [x] T016 [P] [US1] Implement `selectRound` uniform random selection from eligible items with injectable RNG in `src/domain/draw.ts` (FR-018; never selects `status === 'disabled'`, FR-029)
+- [x] T017 [P] [US1] Implement pure round state machine with fixed 60 000 ms (`deadline` epoch math, freeze/resume/discard, ±1 s accuracy, no configurable duration) in `src/domain/roundState.ts` (FR-022, FR-024, FR-026)
+- [x] T018 [US1] Implement `useRound` hook: start draw (guard re-entrancy per FR-021), run animation phase, reveal pair, tick countdown only while `running` on the play view, pause on view change/reload, resume/discard, acknowledge → next round; persist `currentRound` via `useSessionData`/`sessionStore` (FR-026) in `src/hooks/useRound.ts`
+- [x] T019 [P] [US1] Create draw animation component cycling candidate names/questions with CSS `@keyframes`, total duration 2–3 s hard-capped below 5 s, resolving deterministically into the pre-selected pair in `src/components/DrawAnimation.tsx` + `src/components/DrawAnimation.module.css` (FR-016, FR-017)
+- [x] T020 [US1] Create round display showing participant name and question with equal visual prominence and an `MM:SS` countdown starting at `01:00`, plus a visible time-up signal that keeps the pair on screen, in `src/components/RoundDisplay.tsx` (FR-019, FR-020, FR-022, FR-024)
+- [x] T021 [US1] Create interrupted-round component showing frozen remaining time, "Round interrupted — countdown paused" label, and explicit **Resume countdown** / **Discard round** actions in `src/components/InterruptedRound.tsx` (FR-026)
+- [x] T022 [US1] Implement Play view with exactly one Draw control (disabled during animation/round, FR-015), all round states, list rendering, and ignored extra activations in `src/components/PlayView.tsx` per contracts/play-view.md (FR-013, FR-021, FR-023, FR-036)
+- [x] T023 [US1] Wire the view switch in `src/app/App.tsx` so leaving the play view while a countdown runs stops it and marks the round interrupted, and returning shows the resume-or-discard choice with the exact time left (FR-014, FR-026)
+- [x] T024 [US1] Add integration test covering draw → countdown → leave view → interrupted restore → resume and discard, and double-press guard, in `tests/integration/round-flow.test.tsx`
 
 **Checkpoint**: At this point, User Story 1 is fully functional and testable independently (MVP)
 
@@ -88,16 +88,16 @@ Single project, web app (frontend-only): `src/`, `tests/` at repository root, pe
 
 ### Tests for User Story 2
 
-- [ ] T025 [P] [US2] Unit test for line import rules (split per line, trim surrounding whitespace, drop empty/whitespace-only lines, keep duplicates as independent entries, skip name > 200 chars / question > 500 chars individually, preserve accents/internal punctuation) in `tests/unit/importLines.test.ts`
+- [x] T025 [P] [US2] Unit test for line import rules (split per line, trim surrounding whitespace, drop empty/whitespace-only lines, keep duplicates as independent entries, skip name > 200 chars / question > 500 chars individually, preserve accents/internal punctuation) in `tests/unit/importLines.test.ts`
 
 ### Implementation for User Story 2
 
-- [ ] T026 [P] [US2] Implement bulk line import returning `{ accepted, rejected }` per the constraints quoted in T025 in `src/domain/importLines.ts` (FR-002, FR-004, FR-009)
-- [ ] T027 [US2] Create Setup view with bulk paste textarea + **Add lines** button, single-item add input, per-item remove, and in-place text edit that keeps the item's eligible/disabled status in `src/components/SetupView.tsx` per contracts/setup-view.md (FR-001, FR-003, FR-010)
-- [ ] T028 [P] [US2] Create clear-all confirmation dialog ("Clear all participants and questions from this device? This cannot be undone." → Clear everything / Cancel) in `src/components/ClearAllDialog.tsx` (FR-008)
-- [ ] T029 [US2] Add the always-visible privacy line "Your lists stay on this device and are never sent to anyone." and wire clear-all to `sessionStore.clearSession` after confirmation in `src/components/SetupView.tsx` (FR-011, FR-012)
-- [ ] T030 [US2] Create status banner for plain-language messages (storage failure: "We couldn't save your changes in this browser. Your last saved lists are unchanged."; long-line rejection notice) in `src/components/StatusBanner.tsx` (FR-007)
-- [ ] T031 [US2] Add integration test for paste → items appear → reload restores everything → edit persists → clear-all wipes after confirm in `tests/integration/setup-flow.test.tsx`
+- [x] T026 [P] [US2] Implement bulk line import returning `{ accepted, rejected }` per the constraints quoted in T025 in `src/domain/importLines.ts` (FR-002, FR-004, FR-009)
+- [x] T027 [US2] Create Setup view with bulk paste textarea + **Add lines** button, single-item add input, per-item remove, and in-place text edit that keeps the item's eligible/disabled status in `src/components/SetupView.tsx` per contracts/setup-view.md (FR-001, FR-003, FR-010)
+- [x] T028 [P] [US2] Create clear-all confirmation dialog ("Clear all participants and questions from this device? This cannot be undone." → Clear everything / Cancel) in `src/components/ClearAllDialog.tsx` (FR-008)
+- [x] T029 [US2] Add the always-visible privacy line "Your lists stay on this device and are never sent to anyone." and wire clear-all to `sessionStore.clearSession` after confirmation in `src/components/SetupView.tsx` (FR-011, FR-012)
+- [x] T030 [US2] Create status banner for plain-language messages (storage failure: "We couldn't save your changes in this browser. Your last saved lists are unchanged."; long-line rejection notice) in `src/components/StatusBanner.tsx` (FR-007)
+- [x] T031 [US2] Add integration test for paste → items appear → reload restores everything → edit persists → clear-all wipes after confirm in `tests/integration/setup-flow.test.tsx`
 
 **Checkpoint**: At this point, User Stories 1 AND 2 both work independently
 
@@ -111,13 +111,13 @@ Single project, web app (frontend-only): `src/`, `tests/` at repository root, pe
 
 ### Tests for User Story 3
 
-- [ ] T032 [P] [US3] Unit test for item status transitions (toggle sets `disabled`/`eligible`, restore-all sets every item `eligible`, editing text never changes status) in `tests/unit/itemStatus.test.ts`
+- [x] T032 [P] [US3] Unit test for item status transitions (toggle sets `disabled`/`eligible`, restore-all sets every item `eligible`, editing text never changes status) in `tests/unit/itemStatus.test.ts`
 
 ### Implementation for User Story 3
 
-- [ ] T033 [US3] Implement disable/enable toggle by `id` and restore-all in `src/hooks/useSessionData.ts`, persisted on every change (FR-027, FR-030, FR-031)
-- [ ] T034 [US3] Add per-item Eligible/Disabled toggle controls and a single **Restore all to eligible** action to the play-view lists in `src/components/PlayView.tsx` and `src/components/ItemList.tsx` (FR-027, FR-028, FR-030)
-- [ ] T035 [US3] Add integration test for disable → subsequent draws never select it → re-enable → drawable again → reload preserves states → restore-all re-enables all in `tests/integration/disable-flow.test.tsx`
+- [x] T033 [US3] Implement disable/enable toggle by `id` and restore-all in `src/hooks/useSessionData.ts`, persisted on every change (FR-027, FR-030, FR-031)
+- [x] T034 [US3] Add per-item Eligible/Disabled toggle controls and a single **Restore all to eligible** action to the play-view lists in `src/components/PlayView.tsx` and `src/components/ItemList.tsx` (FR-027, FR-028, FR-030)
+- [x] T035 [US3] Add integration test for disable → subsequent draws never select it → re-enable → drawable again → reload preserves states → restore-all re-enables all in `tests/integration/disable-flow.test.tsx`
 
 **Checkpoint**: All user stories through P3 are independently functional
 
@@ -131,13 +131,13 @@ Single project, web app (frontend-only): `src/`, `tests/` at repository root, pe
 
 ### Tests for User Story 4
 
-- [ ] T036 [P] [US4] Unit test for count derivation (eligible/disabled per kind) and game-over detection (zero eligible questions vs zero eligible participants vs both, single eligible of either kind still drawable) in `tests/unit/counts.test.ts`
+- [x] T036 [P] [US4] Unit test for count derivation (eligible/disabled per kind) and game-over detection (zero eligible questions vs zero eligible participants vs both, single eligible of either kind still drawable) in `tests/unit/counts.test.ts`
 
 ### Implementation for User Story 4
 
-- [ ] T037 [P] [US4] Implement pure count/eligibility derivation functions in `src/domain/counts.ts` (FR-032, FR-033, FR-034)
-- [ ] T038 [US4] Add the counts bar (`Eligible participants: N · Eligible questions: N · Disabled: N participants, N questions`) and game-over states in `src/components/PlayView.tsx` and `src/components/StatusBanner.tsx`: message names the exhausted resource, draw control disabled, no animation, no pair (FR-032, FR-033, SC-012)
-- [ ] T039 [US4] Add integration test for counts display → all questions disabled → game-over message without pair → restore-all → draws resume with lists intact in `tests/integration/game-over-flow.test.tsx`
+- [x] T037 [P] [US4] Implement pure count/eligibility derivation functions in `src/domain/counts.ts` (FR-032, FR-033, FR-034)
+- [x] T038 [US4] Add the counts bar (`Eligible participants: N · Eligible questions: N · Disabled: N participants, N questions`) and game-over states in `src/components/PlayView.tsx` and `src/components/StatusBanner.tsx`: message names the exhausted resource, draw control disabled, no animation, no pair (FR-032, FR-033, SC-012)
+- [x] T039 [US4] Add integration test for counts display → all questions disabled → game-over message without pair → restore-all → draws resume with lists intact in `tests/integration/game-over-flow.test.tsx`
 
 **Checkpoint**: All four user stories independently functional
 
@@ -147,13 +147,13 @@ Single project, web app (frontend-only): `src/`, `tests/` at repository root, pe
 
 **Purpose**: Improvements that affect multiple user stories
 
-- [ ] T040 [P] Apply desktop legibility styling: participant name and question fully visible at 1280×720 without scrolling, equal prominence, large shared-screen text, no horizontal scrollbars in either view, in `src/styles/global.css` and component CSS modules (SC-016, SC-011, FR-038)
-- [ ] T041 [P] Audit English-only across identifiers, UI strings, comments, and docs (Constitution Principle II) and fix any violations in `src/` and `tests/`
-- [ ] T042 [P] Extend `tests/unit/draw.test.ts` with a seeded-RNG check for disabled-item exclusion over 30 rounds (SC-003) and the SC-007 fairness band: 10,000 draws over 10 eligible participants with every selection count between 850 and 1,150
-- [ ] T043 Validate performance with 200 participants + 200 questions: draw activation to result within 1 s, no list-render jank, in `tests/integration/performance.test.tsx` plus manual timing (SC-006)
-- [ ] T044 Update `README.md` with setup/run/test commands, the privacy statement, and a pointer to `specs/001-improv-round-draw/quickstart.md`
-- [ ] T045 Run full verification: `npm run lint && npm run typecheck && npm test && npm run build` must all pass
-- [ ] T046 Execute quickstart.md scenarios V1–V9 manually against the dev server and record results
+- [x] T040 [P] Apply desktop legibility styling: participant name and question fully visible at 1280×720 without scrolling, equal prominence, large shared-screen text, no horizontal scrollbars in either view, in `src/styles/global.css` and component CSS modules (SC-016, SC-011, FR-038)
+- [x] T041 [P] Audit English-only across identifiers, UI strings, comments, and docs (Constitution Principle II) and fix any violations in `src/` and `tests/`
+- [x] T042 [P] Extend `tests/unit/draw.test.ts` with a seeded-RNG check for disabled-item exclusion over 30 rounds (SC-003) and the SC-007 fairness band: 10,000 draws over 10 eligible participants with every selection count between 850 and 1,150
+- [x] T043 Validate performance with 200 participants + 200 questions: draw activation to result within 1 s, no list-render jank, in `tests/integration/performance.test.tsx` plus manual timing (SC-006)
+- [x] T044 Update `README.md` with setup/run/test commands, the privacy statement, and a pointer to `specs/001-improv-round-draw/quickstart.md`
+- [x] T045 Run full verification: `npm run lint && npm run typecheck && npm test && npm run build` must all pass
+- [x] T046 Execute quickstart.md scenarios V1–V9 manually against the dev server and record results
 
 ---
 
