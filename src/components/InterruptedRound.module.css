@@ -1,0 +1,66 @@
+.interrupted {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  text-align: center;
+  border: 3px solid #b26a00;
+  border-radius: 12px;
+  background: #fff7e6;
+}
+
+.label {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #8a5200;
+}
+
+.pair {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.spotlight {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 3rem);
+  font-weight: 800;
+  line-height: 1.2;
+  overflow-wrap: anywhere;
+}
+
+.clock {
+  margin: 0;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.actions {
+  display: flex;
+  gap: 1rem;
+}
+
+.resumeButton,
+.discardButton {
+  padding: 0.75rem 1.75rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.resumeButton {
+  color: #ffffff;
+  background: #1c6b2c;
+  border: none;
+}
+
+.discardButton {
+  color: #1a1a1a;
+  background: #ffffff;
+  border: 2px solid #444444;
+}
