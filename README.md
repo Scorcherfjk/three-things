@@ -41,6 +41,10 @@ docker build -t three-things .
 docker run --rm -p 8080:80 three-things   # serves the static build on nginx
 ```
 
+## Deployment
+
+The `Deploy to GitHub Pages` workflow publishes the production build when changes are pushed to `main`, or when run manually from GitHub Actions. It configures GitHub Pages and builds with the repository's Pages base path. Once the workflow completes, the site is available at <https://scorcherfjk.github.io/three-things/>.
+
 ## Privacy
 
 Your lists stay on this device and are never sent to anyone. All data is stored in your browser's localStorage under the key `three-things.session`. The codebase contains no network calls that transmit names or questions, and there are no accounts.
