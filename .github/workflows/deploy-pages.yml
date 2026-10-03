@@ -32,6 +32,8 @@ jobs:
         env:
           BASE_PATH: ${{ steps.pages.outputs.base_path }}
       - uses: actions/upload-pages-artifact@v5
+        with:
+          path: dist
 
   deploy:
     runs-on: ubuntu-24.04
