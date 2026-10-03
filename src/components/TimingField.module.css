@@ -1,0 +1,46 @@
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1 1 14rem;
+  min-width: 12rem;
+}
+
+.label {
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.input {
+  width: 100%;
+  max-width: 10rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  background: #ffffff;
+  border: 2px solid #444444;
+  border-radius: 6px;
+}
+
+.input:focus-visible {
+  outline: 3px solid #1a4fd6;
+  outline-offset: 1px;
+}
+
+.input[aria-invalid='true'] {
+  border-color: #b00020;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.875rem;
+  color: #555555;
+}
+
+.message {
+  margin: 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: #b00020;
+}

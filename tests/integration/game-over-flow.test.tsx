@@ -3,17 +3,19 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { App } from '@/app/App'
 import { GAME_OVER_QUESTIONS } from '@/components/StatusBanner'
 import type { SessionData } from '@/domain/types'
-import { ANIMATION_DURATION_MS } from '@/hooks/useRound'
 import { STORAGE_KEY } from '@/storage/storageKeys'
+
+const TEST_ANIMATION_DURATION_MS = 3000
 
 function seedSession(): SessionData {
   return {
-    version: 1,
+    version: 2,
     participants: [
       { id: 'p1', text: 'Ada', status: 'eligible' },
       { id: 'p2', text: 'Grace', status: 'eligible' },
       { id: 'p3', text: 'Alan', status: 'eligible' },
     ],
+    timing: { animationSeconds: 3, answerSeconds: 60 },
     questions: [
       { id: 'q1', text: 'Tell a short story', status: 'eligible' },
       { id: 'q2', text: 'Do an impression', status: 'eligible' },
@@ -69,7 +71,7 @@ describe('game over flow', () => {
     expect(drawButton).toBeEnabled()
 
     fireEvent.click(drawButton)
-    advance(ANIMATION_DURATION_MS)
+    advance(TEST_ANIMATION_DURATION_MS)
 
     expect(screen.getByRole('region', { name: 'Current round' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Disable Ada' })).toBeInTheDocument()

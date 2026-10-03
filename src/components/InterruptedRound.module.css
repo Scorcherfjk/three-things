@@ -41,26 +41,17 @@
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
 }
 
-.resumeButton,
-.discardButton {
+.resumeButton {
   padding: 0.75rem 1.75rem;
   font-size: 1.125rem;
   font-weight: 700;
   border-radius: 8px;
   cursor: pointer;
-}
-
-.resumeButton {
   color: #ffffff;
   background: #1c6b2c;
   border: none;
-}
-
-.discardButton {
-  color: #1a1a1a;
-  background: #ffffff;
-  border: 2px solid #444444;
 }

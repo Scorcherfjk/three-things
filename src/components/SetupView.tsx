@@ -1,8 +1,10 @@
 import { useCallback, useState } from 'react'
+import type { TimingKind } from '@/domain/timing'
 import type { SessionController } from '@/hooks/useSessionData'
 import { ClearAllDialog } from './ClearAllDialog'
 import { ListPanel } from './ListPanel'
 import { LINE_TOO_LONG_MESSAGE, STORAGE_ERROR_MESSAGE, StatusBanner } from './StatusBanner'
+import { TimingSettings } from './TimingSettings'
 import styles from './SetupView.module.css'
 
 export const PRIVACY_LINE = 'Your lists stay on this device and are never sent to anyone.'
@@ -12,13 +14,24 @@ interface SetupViewProps {
 }
 
 export function SetupView({ session }: SetupViewProps) {
-  const { storageError, clearAll } = session
+  const { storageError, clearAll, timing, setTiming, restoreDefaultTiming } = session
   const [lineRejected, setLineRejected] = useState(false)
   const [dialogOpen, setDialogOpen] = useState(false)
 
   const handleImportResult = useCallback((rejected: number) => {
     setLineRejected(rejected > 0)
   }, [])
+
+  const handleTimingCommit = useCallback(
+    (kind: TimingKind, seconds: number) => {
+      setTiming(kind, seconds)
+    },
+    [setTiming],
+  )
+
+  const handleRestoreDefaults = useCallback(() => {
+    restoreDefaultTiming()
+  }, [restoreDefaultTiming])
 
   const handleClearAllClick = useCallback(() => {
     setDialogOpen(true)
@@ -43,6 +56,11 @@ export function SetupView({ session }: SetupViewProps) {
   return (
     <div className={styles.setup}>
       <StatusBanner message={bannerMessage} />
+      <TimingSettings
+        timing={timing}
+        onTimingCommit={handleTimingCommit}
+        onRestoreDefaults={handleRestoreDefaults}
+      />
       <div className={styles.panels}>
         <ListPanel
           kind="participant"

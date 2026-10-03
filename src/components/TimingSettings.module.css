@@ -1,0 +1,36 @@
+.panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border: 1px solid #d8d8d8;
+  border-radius: 8px;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1.5rem;
+}
+
+.actions {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 1.85rem;
+}
+
+.restoreButton {
+  padding: 0.5rem 1.25rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  background: #ffffff;
+  border: 2px solid #444444;
+  border-radius: 6px;
+  cursor: pointer;
+}

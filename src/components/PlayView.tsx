@@ -2,7 +2,7 @@ import { useCallback } from 'react'
 import type { MouseEvent, ReactNode } from 'react'
 import { countSession, exhaustedResource } from '@/domain/counts'
 import type { ExhaustedResource } from '@/domain/counts'
-import { ANIMATION_DURATION_MS, useRound } from '@/hooks/useRound'
+import { useRound } from '@/hooks/useRound'
 import type { SessionController } from '@/hooks/useSessionData'
 import type { Item, ItemKind, SessionData } from '@/domain/types'
 import { DrawAnimation } from './DrawAnimation'
@@ -79,6 +79,7 @@ export function PlayView({ session }: PlayViewProps) {
   const {
     participants,
     questions,
+    timing,
     currentRound,
     view,
     storageError,
@@ -89,6 +90,7 @@ export function PlayView({ session }: PlayViewProps) {
   const { animating, pendingPair, remainingMs, draw, resume, closeRound } = useRound({
     participants,
     questions,
+    timing,
     currentRound,
     view,
     setCurrentRound,
@@ -107,7 +109,7 @@ export function PlayView({ session }: PlayViewProps) {
     resume()
   }, [resume])
 
-  const handleCloseRound = useCallback(() => {
+  const handleMoveOn = useCallback(() => {
     closeRound()
   }, [closeRound])
 
@@ -164,7 +166,7 @@ export function PlayView({ session }: PlayViewProps) {
             participants={participants}
             questions={questions}
             pair={pendingPair}
-            durationMs={ANIMATION_DURATION_MS}
+            durationMs={timing.animationSeconds * 1000}
           />
         ) : null}
         {!animating && currentRound !== null && currentRound.status === 'interrupted' ? (
@@ -173,7 +175,7 @@ export function PlayView({ session }: PlayViewProps) {
             questionText={questionText}
             remainingMs={remainingMs}
             onResume={handleResume}
-            onDiscard={handleCloseRound}
+            onMoveOn={handleMoveOn}
           />
         ) : null}
         {!animating && currentRound !== null && currentRound.status !== 'interrupted' ? (
@@ -182,7 +184,7 @@ export function PlayView({ session }: PlayViewProps) {
             participantText={participantText}
             questionText={questionText}
             remainingMs={remainingMs}
-            onAcknowledge={handleCloseRound}
+            onMoveOn={handleMoveOn}
           />
         ) : null}
       </div>

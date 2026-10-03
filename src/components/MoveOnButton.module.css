@@ -1,0 +1,10 @@
+.moveOnButton {
+  padding: 1rem 3rem;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #ffffff;
+  background: #b00020;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+}

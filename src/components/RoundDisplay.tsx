@@ -1,5 +1,6 @@
 import { formatClock } from '@/domain/clock'
 import type { Round } from '@/domain/types'
+import { MoveOnButton } from './MoveOnButton'
 import styles from './RoundDisplay.module.css'
 
 interface RoundDisplayProps {
@@ -7,7 +8,7 @@ interface RoundDisplayProps {
   participantText: string
   questionText: string
   remainingMs: number
-  onAcknowledge: () => void
+  onMoveOn: () => void
 }
 
 export function RoundDisplay({
@@ -15,7 +16,7 @@ export function RoundDisplay({
   participantText,
   questionText,
   remainingMs,
-  onAcknowledge,
+  onMoveOn,
 }: RoundDisplayProps) {
   const timeUp = round.status === 'timeup'
 
@@ -28,14 +29,8 @@ export function RoundDisplay({
       <p className={timeUp ? styles.clockExpired : styles.clock} role="timer">
         {formatClock(remainingMs)}
       </p>
-      {timeUp ? (
-        <div className={styles.timeupBlock}>
-          <p className={styles.timeup}>Time&apos;s up!</p>
-          <button type="button" className={styles.nextButton} onClick={onAcknowledge}>
-            Next round
-          </button>
-        </div>
-      ) : null}
+      {timeUp ? <p className={styles.timeup}>Time&apos;s up!</p> : null}
+      <MoveOnButton onMoveOn={onMoveOn} />
     </section>
   )
 }
