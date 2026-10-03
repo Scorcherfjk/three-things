@@ -9,15 +9,14 @@ import {
   resumeRound,
   startRound,
 } from '@/domain/roundState'
-import type { Item, Round, View } from '@/domain/types'
-
-export const ANIMATION_DURATION_MS = 2500
+import type { Item, Round, TimingSettings, View } from '@/domain/types'
 
 const TICK_INTERVAL_MS = 250
 
 interface UseRoundOptions {
   participants: Item[]
   questions: Item[]
+  timing: TimingSettings
   currentRound: Round | null
   view: View
   setCurrentRound: (round: Round | null) => void
@@ -26,6 +25,7 @@ interface UseRoundOptions {
 export function useRound({
   participants,
   questions,
+  timing,
   currentRound,
   view,
   setCurrentRound,
@@ -80,6 +80,13 @@ export function useRound({
     if (pair === null) {
       return
     }
+    const answerMs = timing.answerSeconds * 1000
+    if (timing.animationSeconds === 0) {
+      const revealAt = Date.now()
+      setNow(revealAt)
+      setCurrentRound(startRound(pair.participant.id, pair.question.id, revealAt, answerMs))
+      return
+    }
     setPendingPair(pair)
     setAnimating(true)
     animationTimeoutRef.current = window.setTimeout(() => {
@@ -88,9 +95,9 @@ export function useRound({
       setPendingPair(null)
       const revealAt = Date.now()
       setNow(revealAt)
-      setCurrentRound(startRound(pair.participant.id, pair.question.id, revealAt))
-    }, ANIMATION_DURATION_MS)
-  }, [animating, currentRound, participants, questions, setCurrentRound])
+      setCurrentRound(startRound(pair.participant.id, pair.question.id, revealAt, answerMs))
+    }, timing.animationSeconds * 1000)
+  }, [animating, currentRound, participants, questions, setCurrentRound, timing])
 
   const resume = useCallback(() => {
     if (currentRound === null || currentRound.status !== 'interrupted') {

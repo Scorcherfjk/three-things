@@ -1,4 +1,5 @@
 import { formatClock } from '@/domain/clock'
+import { MoveOnButton } from './MoveOnButton'
 import styles from './InterruptedRound.module.css'
 
 interface InterruptedRoundProps {
@@ -6,7 +7,7 @@ interface InterruptedRoundProps {
   questionText: string
   remainingMs: number
   onResume: () => void
-  onDiscard: () => void
+  onMoveOn: () => void
 }
 
 export function InterruptedRound({
@@ -14,7 +15,7 @@ export function InterruptedRound({
   questionText,
   remainingMs,
   onResume,
-  onDiscard,
+  onMoveOn,
 }: InterruptedRoundProps) {
   return (
     <section className={styles.interrupted} aria-label="Interrupted round">
@@ -30,9 +31,7 @@ export function InterruptedRound({
         <button type="button" className={styles.resumeButton} onClick={onResume}>
           Resume countdown
         </button>
-        <button type="button" className={styles.discardButton} onClick={onDiscard}>
-          Discard round
-        </button>
+        <MoveOnButton onMoveOn={onMoveOn} />
       </div>
     </section>
   )

@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createId } from '@/domain/ids'
+import { defaultTiming } from '@/domain/timing'
+import type { TimingKind } from '@/domain/timing'
 import { emptySession } from '@/domain/types'
 import type { Item, ItemKind, Round, SessionData, View } from '@/domain/types'
 import { clearSession, loadSession, saveSession } from '@/storage/sessionStore'
@@ -18,6 +20,17 @@ function appendItems(prev: SessionData, kind: ItemKind, texts: string[]): Sessio
 
 function updateItem(items: Item[], id: string, update: (item: Item) => Item): Item[] {
   return items.map((item) => (item.id === id ? update(item) : item))
+}
+
+function withTiming(
+  timing: SessionData['timing'],
+  kind: TimingKind,
+  seconds: number,
+): SessionData['timing'] {
+  if (kind === 'animation') {
+    return { ...timing, animationSeconds: seconds }
+  }
+  return { ...timing, answerSeconds: seconds }
 }
 
 export function useSessionData() {
@@ -103,9 +116,18 @@ export function useSessionData() {
     setSession((prev) => ({ ...prev, currentRound: round }))
   }, [])
 
+  const setTiming = useCallback((kind: TimingKind, seconds: number) => {
+    setSession((prev) => ({ ...prev, timing: withTiming(prev.timing, kind, seconds) }))
+  }, [])
+
+  const restoreDefaultTiming = useCallback(() => {
+    setSession((prev) => ({ ...prev, timing: defaultTiming() }))
+  }, [])
+
   return {
     participants: session.participants,
     questions: session.questions,
+    timing: session.timing,
     view: session.view,
     currentRound: session.currentRound,
     storageError,
@@ -118,6 +140,8 @@ export function useSessionData() {
     restoreAll,
     clearAll,
     setCurrentRound,
+    setTiming,
+    restoreDefaultTiming,
   }
 }
 
